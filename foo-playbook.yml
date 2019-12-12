@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+  become: no
+
+- vars:
+    - testvar01: jdoe
+
+  tasks:
+    - name: Debug
+      debug:
+        var: testvar01

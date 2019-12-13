@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: yes
+  become: yes
+  vars:
+    users:
+      - user01
+
+  tasks:
+  - name: Create a user
+    user:
+      name: "{{ item }}"
+      shell: /bin/bash
+      home: /home/{{ item }}
+      state: present
+    loop: "{{ users }}"
+
+  - name: Create file log
+    lineinfile:
+      path: /home/{{ item }}/user_created_date.txt
+      line: " > User: {{ item }} created at {{ ansible_date_time.date }} - {{ ansible_date_time.time }}"
+      create: yes
+      state: present
+    loop: "{{ users }}"

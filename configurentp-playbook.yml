@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  become: yes
+  vars:
+    ntp_server: time.google.com
+
+  tasks:
+  - name: Install rhel-system-roles
+    yum:
+      name: rhel-system-roles
+      state: latest
+
+  - name: Install ntp
+    yum:
+      name: ntp
+      state: latest
+    notify: Configuracion ntp
+
+  - name: Configuracion ntp
+    nxos_ntp:
+      server: "{{ ntp_server }}"
